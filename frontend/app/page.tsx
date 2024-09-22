@@ -10,7 +10,7 @@ export default function OptoPrompt() {
   const [maxBootstrappedDemos, setMaxBootstrappedDemos] = useState(0)
   const [maxLabeledDemos, setMaxLabeledDemos] = useState(0)
   const [numCandidatePrograms, setNumCandidatePrograms] = useState(0)
-  const [results, setResults] = useState<any[]>([])
+  const [results, setResults] = useState<any[] | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [callId, setCallId] = useState<string | null>(null)
 
@@ -44,7 +44,7 @@ export default function OptoPrompt() {
         setCallId(data.call_id)
       } else {
         console.error("Unexpected response format:", data)
-        setResults(null)
+        setResults([])  // Set to an empty array instead of null
         setCallId(null)
       }
     } catch (error) {
