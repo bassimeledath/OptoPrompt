@@ -79,7 +79,7 @@ const OptimizationForm: React.FC<OptimizationFormProps> = ({
                 {error && <div className="text-red-500 text-sm">{error}</div>}
 
                 {isLoading ? (
-                    <LoadingPrompts count={numCandidatePrograms} />
+                    <LoadingPrompts />
                 ) : (
                     <Button
                         onClick={validateAndOptimize}
