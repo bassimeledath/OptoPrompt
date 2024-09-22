@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
 import FileUpload from './FileUpload'
+import LoadingPrompts from './LoadingPrompts'
 
 interface OptimizationFormProps {
     file: File | null
@@ -15,6 +16,7 @@ interface OptimizationFormProps {
     numCandidatePrograms: number
     setNumCandidatePrograms: (value: number) => void
     handleOptimize: () => void
+    isLoading: boolean
 }
 
 const OptimizationForm: React.FC<OptimizationFormProps> = ({
@@ -26,8 +28,20 @@ const OptimizationForm: React.FC<OptimizationFormProps> = ({
     setMaxLabeledDemos,
     numCandidatePrograms,
     setNumCandidatePrograms,
-    handleOptimize
+    handleOptimize,
+    isLoading
 }) => {
+    const [error, setError] = useState<string | null>(null);
+
+    const validateAndOptimize = () => {
+        if (!file) {
+            setError("Please upload a file.");
+            return;
+        }
+        setError(null);
+        handleOptimize();
+    };
+
     return (
         <Card>
             <CardContent className="space-y-4 p-6">
@@ -62,9 +76,19 @@ const OptimizationForm: React.FC<OptimizationFormProps> = ({
                         className="mt-1"
                     />
                 </div>
-                <Button onClick={handleOptimize} className="w-full bg-[#fb882f] hover:bg-[#e77d2e] text-white">
-                    Optimize
-                </Button>
+                {error && <div className="text-red-500 text-sm">{error}</div>}
+
+                {isLoading ? (
+                    <LoadingPrompts count={numCandidatePrograms} />
+                ) : (
+                    <Button
+                        onClick={validateAndOptimize}
+                        className="w-full bg-[#fb882f] hover:bg-[#e77d2e] text-white"
+                        disabled={isLoading}
+                    >
+                        Optimize
+                    </Button>
+                )}
             </CardContent>
         </Card>
     )

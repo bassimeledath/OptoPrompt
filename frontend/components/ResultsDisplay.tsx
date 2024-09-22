@@ -4,21 +4,22 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 
 interface ResultsDisplayProps {
-    showResults: boolean
+    results: any[]
+    isLoading: boolean
 }
 
-const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ showResults }) => {
+const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results, isLoading }) => {
     const [currentResultIndex, setCurrentResultIndex] = useState(0)
 
-    // Mock data for results with longer text
-    const mockResults = [
-        "Optimized result 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        "Optimized result 2: Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        "Optimized result 3: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        "Optimized result 4: Ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    ]
+    if (isLoading) {
+        return (
+            <div className="text-gray-500 text-center">
 
-    if (!showResults) {
+            </div>
+        )
+    }
+
+    if (!results || results.length === 0) {
         return (
             <div className="text-gray-500 text-center">
                 Click "Optimize" to see results
@@ -31,12 +32,14 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ showResults }) => {
             <CardContent className="p-6 flex-grow flex flex-col">
                 <div className="flex-grow overflow-y-auto mb-4">
                     <div className="text-center">
-                        {mockResults[currentResultIndex]}
+                        <p>{results[currentResultIndex].text}</p>
+                        <p className="mt-2">Score: {results[currentResultIndex].score}</p>
+                        <p>Complexity: {results[currentResultIndex].complexity}</p>
                     </div>
                 </div>
                 <div className="flex justify-center items-center space-x-4">
                     <Button
-                        onClick={() => setCurrentResultIndex((prev) => (prev > 0 ? prev - 1 : mockResults.length - 1))}
+                        onClick={() => setCurrentResultIndex((prev) => (prev > 0 ? prev - 1 : results.length - 1))}
                         className="bg-[#dac5fe] hover:bg-[#c5b0e9] text-[#fb882f] p-2 rounded-full"
                         size="icon"
                     >
@@ -44,7 +47,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ showResults }) => {
                         <span className="sr-only">Previous</span>
                     </Button>
                     <Button
-                        onClick={() => setCurrentResultIndex((prev) => (prev < mockResults.length - 1 ? prev + 1 : 0))}
+                        onClick={() => setCurrentResultIndex((prev) => (prev < results.length - 1 ? prev + 1 : 0))}
                         className="bg-[#dac5fe] hover:bg-[#c5b0e9] text-[#fb882f] p-2 rounded-full"
                         size="icon"
                     >
