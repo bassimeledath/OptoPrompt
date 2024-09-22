@@ -10,11 +10,46 @@ export default function OptoPrompt() {
   const [maxBootstrappedDemos, setMaxBootstrappedDemos] = useState(0)
   const [maxLabeledDemos, setMaxLabeledDemos] = useState(0)
   const [numCandidatePrograms, setNumCandidatePrograms] = useState(0)
-  const [showResults, setShowResults] = useState(false)
+  const [results, setResults] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleOptimize = () => {
-    console.log("Optimizing with:", { file, maxBootstrappedDemos, maxLabeledDemos, numCandidatePrograms })
-    setShowResults(true)
+  const handleOptimize = async () => {
+    setIsLoading(true)
+    const formData = new FormData()
+    if (file) formData.append('file', file)
+    formData.append('data', JSON.stringify({
+      maxBootstrappedDemos,
+      maxLabeledDemos,
+      numCandidatePrograms
+    }))
+
+    console.log("Sending request to server...")
+
+    try {
+      const response = await fetch('http://localhost:8000/optimize', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json()
+      console.log("Response data:", data)
+
+      if (data.results && Array.isArray(data.results)) {
+        setResults(data.results)
+      } else {
+        console.error("Unexpected response format:", data)
+        setResults([])
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      setResults([])
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -32,10 +67,11 @@ export default function OptoPrompt() {
             numCandidatePrograms={numCandidatePrograms}
             setNumCandidatePrograms={setNumCandidatePrograms}
             handleOptimize={handleOptimize}
+            isLoading={isLoading}
           />
         </div>
         <div className="w-1/2 p-6 bg-[#faf5e5] flex items-center justify-center">
-          <ResultsDisplay showResults={showResults} />
+          <ResultsDisplay results={results} isLoading={isLoading} />
         </div>
       </div>
     </div>

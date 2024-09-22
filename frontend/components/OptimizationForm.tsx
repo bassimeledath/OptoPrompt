@@ -15,6 +15,7 @@ interface OptimizationFormProps {
     numCandidatePrograms: number
     setNumCandidatePrograms: (value: number) => void
     handleOptimize: () => void
+    isLoading: boolean
 }
 
 const OptimizationForm: React.FC<OptimizationFormProps> = ({
@@ -26,7 +27,8 @@ const OptimizationForm: React.FC<OptimizationFormProps> = ({
     setMaxLabeledDemos,
     numCandidatePrograms,
     setNumCandidatePrograms,
-    handleOptimize
+    handleOptimize,
+    isLoading
 }) => {
     return (
         <Card>
@@ -62,8 +64,12 @@ const OptimizationForm: React.FC<OptimizationFormProps> = ({
                         className="mt-1"
                     />
                 </div>
-                <Button onClick={handleOptimize} className="w-full bg-[#fb882f] hover:bg-[#e77d2e] text-white">
-                    Optimize
+                <Button
+                    onClick={handleOptimize}
+                    className="w-full bg-[#fb882f] hover:bg-[#e77d2e] text-white"
+                    disabled={isLoading}
+                >
+                    {isLoading ? 'Optimizing...' : 'Optimize'}
                 </Button>
             </CardContent>
         </Card>
