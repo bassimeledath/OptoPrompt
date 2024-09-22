@@ -18,9 +18,10 @@ async def optimize(file: UploadFile = File(...), data: str = Form(...)):
     print("Optimize endpoint reached")
     
     # Call apply_dspy function
-    results = await apply_dspy(file, data)
+    results, call_id = await apply_dspy(file, data)
+    print(f"call_id: {call_id}")
     
-    return {"results": results}
+    return {"results": results, "call_id": call_id}
 
 if __name__ == "__main__":
     import uvicorn

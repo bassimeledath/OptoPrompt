@@ -125,6 +125,11 @@ class LLMJudge:
         teleprompter = BootstrapFewShotWithRandomSearch(metric=metric, **config)
         self.predictor = teleprompter.compile(self.predictor, trainset=trainset)
 
+        # Retrieve the current call ID
+        current_call = weave.require_current_call()
+        call_id = current_call.id
+        return call_id
+
 async def apply_dspy(file: UploadFile = File(...), data: str = Form(...)):
     # Parse the data string into a dictionary
     data_dict = json.loads(data)
@@ -144,8 +149,8 @@ async def apply_dspy(file: UploadFile = File(...), data: str = Form(...)):
     # Initialize LLMJudge with the optimization parameters
     llm_judge = LLMJudge(model='gpt-4o-mini')
     
-    # Optimize the LLMJudge
-    llm_judge.optimize(trainset, data_dict)
+    # Optimize the LLMJudge and retrieve the call ID
+    call_id = llm_judge.optimize(trainset, data_dict)
     
     # Extract unique prompts from the LLM's history
     list_unique_prompts = list(set(llm_judge.lm.history[i]['prompt'] for i in range(len(llm_judge.lm.history))))
@@ -153,4 +158,4 @@ async def apply_dspy(file: UploadFile = File(...), data: str = Form(...)):
     # Create the results list
     results = [{"text": prompt} for prompt in list_unique_prompts]
     
-    return results
+    return results, call_id
