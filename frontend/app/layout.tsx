@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'OptoPrompt',
   description: 'Optimize your prompts with OptoPrompt',
+  icons: {
+    icon: '/favicon.png',
+  },
 }
 
 export default function RootLayout({
