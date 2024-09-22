@@ -69,7 +69,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results, isLoading }) =
                     </div>
                     <div className="w-1/3 flex justify-end">
                         <Link href="https://wandb.ai/bassimfaizal/weave_dspy_demo/weave/traces" target="_blank" rel="noopener noreferrer">
-                            <Button className="bg-[#dac5ff] hover:bg-[#fb882f] font-semibold py-2 px-4">
+                            <Button className="bg-[#dac5ff] hover:bg-[#c5b0e9] font-semibold py-2 px-4">
                                 <Image src="/weave_logo.png" alt="Weave Logo" width={100} height={24} className="mr-2" />
                             </Button>
                         </Link>
