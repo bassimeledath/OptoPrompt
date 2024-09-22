@@ -8,5 +8,6 @@ dependencies = [
     "dspy-ai>=2.4.16",
     "python-dotenv>=1.0.1",
     "python-multipart>=0.0.10",
+    "ratelimit>=2.2.1",
     "weave>=0.51.8",
 ]

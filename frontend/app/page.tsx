@@ -12,6 +12,7 @@ export default function OptoPrompt() {
   const [numCandidatePrograms, setNumCandidatePrograms] = useState(0)
   const [results, setResults] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [callId, setCallId] = useState<string | null>(null)
 
   const handleOptimize = async () => {
     setIsLoading(true)
@@ -38,15 +39,18 @@ export default function OptoPrompt() {
       const data = await response.json()
       console.log("Response data:", data)
 
-      if (data.results && Array.isArray(data.results)) {
+      if (data.results && data.results.text) {
         setResults(data.results)
+        setCallId(data.call_id)
       } else {
         console.error("Unexpected response format:", data)
-        setResults([])
+        setResults(null)
+        setCallId(null)
       }
     } catch (error) {
       console.error('Error:', error)
-      setResults([])
+      setResults(null)
+      setCallId(null)
     } finally {
       setIsLoading(false)
     }
@@ -71,7 +75,7 @@ export default function OptoPrompt() {
           />
         </div>
         <div className="w-1/2 p-6 bg-[#faf5e5] flex items-center justify-center">
-          <ResultsDisplay results={results} isLoading={isLoading} />
+          <ResultsDisplay results={results} isLoading={isLoading} callId={callId} />
         </div>
       </div>
     </div>
