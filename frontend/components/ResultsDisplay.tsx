@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import Image from 'next/image'
+import Link from 'next/link'
 
 interface ResultsDisplayProps {
     results: any[]
@@ -65,7 +67,13 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results, isLoading }) =
                             <span className="sr-only">Next</span>
                         </Button>
                     </div>
-                    <div className="w-1/3"></div>
+                    <div className="w-1/3 flex justify-end">
+                        <Link href="https://wandb.ai/bassimfaizal/weave_dspy_demo/weave/traces" target="_blank" rel="noopener noreferrer">
+                            <Button className="bg-[#dac5ff] hover:bg-[#fb882f] font-semibold py-2 px-4">
+                                <Image src="/weave_logo.png" alt="Weave Logo" width={100} height={24} className="mr-2" />
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </CardContent>
         </Card>
