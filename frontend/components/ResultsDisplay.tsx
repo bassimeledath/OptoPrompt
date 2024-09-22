@@ -30,11 +30,9 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results, isLoading }) =
     return (
         <Card className="w-full h-full flex flex-col">
             <CardContent className="p-6 flex-grow flex flex-col">
-                <div className="flex-grow overflow-y-auto mb-4">
-                    <div className="text-center">
-                        <p>{results[currentResultIndex].text}</p>
-                        <p className="mt-2">Score: {results[currentResultIndex].score}</p>
-                        <p>Complexity: {results[currentResultIndex].complexity}</p>
+                <div className="flex-grow overflow-hidden mb-4">
+                    <div className="text-center h-[550px] overflow-y-auto">
+                        <p className="px-2">{results[currentResultIndex].text}</p>
                     </div>
                 </div>
                 <div className="flex justify-center items-center space-x-4">
