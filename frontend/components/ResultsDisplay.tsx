@@ -31,27 +31,41 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results, isLoading }) =
         <Card className="w-full h-full flex flex-col">
             <CardContent className="p-6 flex-grow flex flex-col">
                 <div className="flex-grow overflow-hidden mb-4">
-                    <div className="text-center h-[550px] overflow-y-auto">
-                        <p className="px-2">{results[currentResultIndex].text}</p>
+                    <div className="text-left h-[550px] overflow-y-auto bg-gray-100 rounded-md p-4">
+                        <pre className="font-mono text-base text-gray-700 whitespace-pre-wrap break-words">
+                            <code>{results[currentResultIndex].text}</code>
+                        </pre>
                     </div>
                 </div>
-                <div className="flex justify-center items-center space-x-4">
-                    <Button
-                        onClick={() => setCurrentResultIndex((prev) => (prev > 0 ? prev - 1 : results.length - 1))}
-                        className="bg-[#dac5fe] hover:bg-[#c5b0e9] text-[#fb882f] p-2 rounded-full"
-                        size="icon"
-                    >
-                        <ArrowLeft className="w-6 h-6" />
-                        <span className="sr-only">Previous</span>
-                    </Button>
-                    <Button
-                        onClick={() => setCurrentResultIndex((prev) => (prev < results.length - 1 ? prev + 1 : 0))}
-                        className="bg-[#dac5fe] hover:bg-[#c5b0e9] text-[#fb882f] p-2 rounded-full"
-                        size="icon"
-                    >
-                        <ArrowRight className="w-6 h-6" />
-                        <span className="sr-only">Next</span>
-                    </Button>
+                <div className="flex justify-between items-center">
+                    <div className="w-1/3 text-left">
+                        {currentResultIndex === 0 ? (
+                            <span className="text-[#fb882f] font-semibold text-xl">👑 Prompt</span>
+                        ) : (
+                            <span className="text-[#fb882f] font-semibold text-lg">
+                                Prompt ({currentResultIndex + 1}/{results.length})
+                            </span>
+                        )}
+                    </div>
+                    <div className="w-1/3 flex justify-center items-center space-x-4">
+                        <Button
+                            onClick={() => setCurrentResultIndex((prev) => (prev > 0 ? prev - 1 : results.length - 1))}
+                            className="bg-[#dac5fe] hover:bg-[#c5b0e9] text-[#fb882f] p-2 rounded-full"
+                            size="icon"
+                        >
+                            <ArrowLeft className="w-6 h-6" />
+                            <span className="sr-only">Previous</span>
+                        </Button>
+                        <Button
+                            onClick={() => setCurrentResultIndex((prev) => (prev < results.length - 1 ? prev + 1 : 0))}
+                            className="bg-[#dac5fe] hover:bg-[#c5b0e9] text-[#fb882f] p-2 rounded-full"
+                            size="icon"
+                        >
+                            <ArrowRight className="w-6 h-6" />
+                            <span className="sr-only">Next</span>
+                        </Button>
+                    </div>
+                    <div className="w-1/3"></div>
                 </div>
             </CardContent>
         </Card>

@@ -1,9 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from apply_dspy import apply_dspy
-import asyncio
-import random
-import json
 
 app = FastAPI()
 
