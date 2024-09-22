@@ -14,7 +14,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results, isLoading }) =
     if (isLoading) {
         return (
             <div className="text-gray-500 text-center">
-                Optimizing...
+
             </div>
         )
     }

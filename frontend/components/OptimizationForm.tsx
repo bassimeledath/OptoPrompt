@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
 import FileUpload from './FileUpload'
+import LoadingPrompts from './LoadingPrompts'
 
 interface OptimizationFormProps {
     file: File | null
@@ -76,13 +77,18 @@ const OptimizationForm: React.FC<OptimizationFormProps> = ({
                     />
                 </div>
                 {error && <div className="text-red-500 text-sm">{error}</div>}
-                <Button
-                    onClick={validateAndOptimize}
-                    className="w-full bg-[#fb882f] hover:bg-[#e77d2e] text-white"
-                    disabled={isLoading}
-                >
-                    {isLoading ? 'Optimizing...' : 'Optimize'}
-                </Button>
+
+                {isLoading ? (
+                    <LoadingPrompts count={numCandidatePrograms} />
+                ) : (
+                    <Button
+                        onClick={validateAndOptimize}
+                        className="w-full bg-[#fb882f] hover:bg-[#e77d2e] text-white"
+                        disabled={isLoading}
+                    >
+                        Optimize
+                    </Button>
+                )}
             </CardContent>
         </Card>
     )
