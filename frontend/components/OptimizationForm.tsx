@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -30,6 +30,17 @@ const OptimizationForm: React.FC<OptimizationFormProps> = ({
     handleOptimize,
     isLoading
 }) => {
+    const [error, setError] = useState<string | null>(null);
+
+    const validateAndOptimize = () => {
+        if (!file) {
+            setError("Please upload a file.");
+            return;
+        }
+        setError(null);
+        handleOptimize();
+    };
+
     return (
         <Card>
             <CardContent className="space-y-4 p-6">
@@ -64,8 +75,9 @@ const OptimizationForm: React.FC<OptimizationFormProps> = ({
                         className="mt-1"
                     />
                 </div>
+                {error && <div className="text-red-500 text-sm">{error}</div>}
                 <Button
-                    onClick={handleOptimize}
+                    onClick={validateAndOptimize}
                     className="w-full bg-[#fb882f] hover:bg-[#e77d2e] text-white"
                     disabled={isLoading}
                 >
